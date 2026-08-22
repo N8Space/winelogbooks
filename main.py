@@ -14,7 +14,7 @@ async def root():
     <!DOCTYPE html>
     <html>
       <head>
-        <title>FastAPI on Azure</title>
+        <title>I love Cleo and Ruby!!</title>
         <style>
           body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; display: flex; justify-content: center; align-items: center; height: 90vh; margin: 0; background: #0f172a; color: #f8fafc; }
           .card { background: #1e293b; padding: 2.5rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center; max-width: 480px; }
