@@ -40,9 +40,10 @@ PROJECTS = [
         "category": "Agentic AI + LangGraph",
         "summary": "An intelligent conversational agent built with LangGraph and Google Gemini that routes dynamically between real-time headlines (NewsAPI) and live search (Tavily).",
         "outcome": "Demonstrated production agentic patterns (cyclical tool routing, state management, fallback recovery) and delivered an interactive Streamlit UI for live queries.",
-        "stack": ["LangGraph", "LangChain", "Google Gemini", "NewsAPI", "Tavily Search", "Streamlit"],
+        "stack": ["LangGraph", "LangChain", "Google Gemini", "NewsAPI", "Tavily Search", "Streamlit", "Azure App Service"],
         "story": "NewsGenie addresses LLM knowledge cutoff limitations through graph-based multi-tool routing. The system analyzes user intent to either answer from training data, query categorized news headlines via NewsAPI, or perform live web research via Tavily with structured error handling.",
         "github_url": "https://github.com/N8Space/NewsGenie",
+        "demo_url": "https://newsgenie-lesterlabs.azurewebsites.net",
     },
     {
         "slug": "azure-governance-dashboard",

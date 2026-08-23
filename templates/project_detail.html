@@ -24,6 +24,18 @@
           <li>{{ tool }}</li>
           {% endfor %}
         </ul>
+
+        {% if project.github_url or project.demo_url %}
+        <h2>Project links</h2>
+        <div class="hero-actions" style="margin-top: 1rem;">
+          {% if project.demo_url %}
+          <a class="btn btn-primary" href="{{ project.demo_url }}" target="_blank" rel="noopener noreferrer">Launch Live App ↗</a>
+          {% endif %}
+          {% if project.github_url %}
+          <a class="btn btn-secondary" href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer">View Source on GitHub ↗</a>
+          {% endif %}
+        </div>
+        {% endif %}
       </article>
 
       <aside class="sidebar-panel">
