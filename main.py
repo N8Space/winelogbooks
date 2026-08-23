@@ -35,13 +35,14 @@ CERTIFICATIONS = [
 
 PROJECTS = [
     {
-        "slug": "copilot-support-automation",
-        "title": "AI Copilot for Support Operations",
-        "category": "Azure AI + Operations",
-        "summary": "A knowledge assistant built for frontline teams to answer policy, troubleshooting, and escalation questions using enterprise data and Azure AI services.",
-        "outcome": "Reduced time-to-answer for recurring support tasks and created a repeatable AI adoption pattern for teams with limited ML experience.",
-        "stack": ["Azure OpenAI", "AI Search", "Azure App Service", "Key Vault", "Monitor"],
-        "story": "This project demonstrates how to combine governance, secure deployment, and user-centered design to create a production-ready internal AI assistant.",
+        "slug": "newsgenie",
+        "title": "NewsGenie: Multi-Tool Real-Time News & Research Agent",
+        "category": "Agentic AI + LangGraph",
+        "summary": "An intelligent conversational agent built with LangGraph and Google Gemini that routes dynamically between real-time headlines (NewsAPI) and live search (Tavily).",
+        "outcome": "Demonstrated production agentic patterns (cyclical tool routing, state management, fallback recovery) and delivered an interactive Streamlit UI for live queries.",
+        "stack": ["LangGraph", "LangChain", "Google Gemini", "NewsAPI", "Tavily Search", "Streamlit"],
+        "story": "NewsGenie addresses LLM knowledge cutoff limitations through graph-based multi-tool routing. The system analyzes user intent to either answer from training data, query categorized news headlines via NewsAPI, or perform live web research via Tavily with structured error handling.",
+        "github_url": "https://github.com/N8Space/NewsGenie",
     },
     {
         "slug": "azure-governance-dashboard",
@@ -51,6 +52,7 @@ PROJECTS = [
         "outcome": "Creates a clear operating model for scale-up AI adoption with policy oversight and business-friendly reporting.",
         "stack": ["Azure Monitor", "Cost Management", "Entra ID", "Policy", "Dashboards"],
         "story": "This work frames AI enablement as a platform capability, showing how to align technical delivery with compliance, cost visibility, and adoption metrics.",
+        "github_url": None,
     },
     {
         "slug": "intelligent-knowledge-hub",
@@ -60,6 +62,7 @@ PROJECTS = [
         "outcome": "Improves knowledge accessibility and reduces manual lookup time across departments while establishing a reusable architecture for future AI copilots.",
         "stack": ["RAG", "Azure AI Search", "Python", "FastAPI", "Vector Search"],
         "story": "This project highlights how AI enablement teams can capture institutional knowledge and turn it into an enterprise service with measurable productivity gains.",
+        "github_url": None,
     },
 ]
 
@@ -254,6 +257,11 @@ async def project_detail(slug: str):
         for item in PROJECTS if item["slug"] != project["slug"]
     )
     tools = ''.join(f'<li>{tool}</li>' for tool in project["stack"])
+    github_btn = (
+        f'<div style="margin-top: 1.5rem;"><a class="btn btn-secondary" href="{project["github_url"]}" target="_blank">View GitHub Repo ↗</a></div>'
+        if project.get("github_url")
+        else ""
+    )
     body = f"""
     <main>
       <section class="page-hero">
@@ -272,6 +280,7 @@ async def project_detail(slug: str):
             <p>{project['outcome']}</p>
             <h2>Technology stack</h2>
             <ul>{tools}</ul>
+            {github_btn}
           </article>
           <aside class="sidebar-panel">
             <h3>Why it matters</h3>
