@@ -258,11 +258,16 @@ async def project_detail(slug: str):
         for item in PROJECTS if item["slug"] != project["slug"]
     )
     tools = ''.join(f'<li>{tool}</li>' for tool in project["stack"])
-    github_btn = (
-        f'<div style="margin-top: 1.5rem;"><a class="btn btn-secondary" href="{project["github_url"]}" target="_blank">View GitHub Repo ↗</a></div>'
-        if project.get("github_url")
-        else ""
-    )
+    
+    links_html = ""
+    if project.get("demo_url") or project.get("github_url"):
+        links = []
+        if project.get("demo_url"):
+            links.append(f'<a class="btn btn-primary" href="{project["demo_url"]}" target="_blank" rel="noopener noreferrer">Launch Live App ↗</a>')
+        if project.get("github_url"):
+            links.append(f'<a class="btn btn-secondary" href="{project["github_url"]}" target="_blank" rel="noopener noreferrer">View GitHub Repo ↗</a>')
+        links_html = f'<div class="hero-actions" style="margin-top: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">{"".join(links)}</div>'
+
     body = f"""
     <main>
       <section class="page-hero">
@@ -281,7 +286,7 @@ async def project_detail(slug: str):
             <p>{project['outcome']}</p>
             <h2>Technology stack</h2>
             <ul>{tools}</ul>
-            {github_btn}
+            {links_html}
           </article>
           <aside class="sidebar-panel">
             <h3>Why it matters</h3>
