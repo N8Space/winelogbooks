@@ -1,0 +1,46 @@
+{% include 'partials/header.html' %}
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <span class="kicker">{{ project.category }}</span>
+      <h1>{{ project.title }}</h1>
+      <p>{{ project.summary }}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container detail-shell">
+      <article class="article-panel">
+        <h2>Project story</h2>
+        <p>{{ project.story }}</p>
+
+        <h2>Business outcome</h2>
+        <p>{{ project.outcome }}</p>
+
+        <h2>Technology stack</h2>
+        <ul>
+          {% for tool in project.stack %}
+          <li>{{ tool }}</li>
+          {% endfor %}
+        </ul>
+      </article>
+
+      <aside class="sidebar-panel">
+        <h3>Why it matters</h3>
+        <p>This project is designed to demonstrate the kind of situational awareness recruiters look for in AI enablement leaders: practical use-case selection, governance thinking, and operational readiness.</p>
+
+        <h3>Related projects</h3>
+        <ul class="sidebar-list">
+          {% for item in projects %}
+          {% if item.slug != project.slug %}
+          <li><a href="/projects/{{ item.slug }}">{{ item.title }}</a></li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </aside>
+    </div>
+  </section>
+</main>
+
+{% include 'partials/footer.html' %}

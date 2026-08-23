@@ -1,0 +1,103 @@
+{% include 'partials/header.html' %}
+
+<main>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="kicker">AI Enablement Portfolio</span>
+        <h1>
+          Building practical <span class="gradient-text">AI solutions</span><br />
+          for operations, governance, and growth.
+        </h1>
+        <p>
+          I am creating a portfolio of Azure-focused AI projects and enablement work while progressing through the AI-103 and AZ-104 certification paths.
+          My goal is to help teams turn AI ideas into secure, measurable business value.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/projects">Explore projects</a>
+          <a class="btn btn-secondary" href="/about">Learn my story</a>
+        </div>
+        <div class="hero-meta">
+          <span>Azure-first architecture</span>
+          <span>AI adoption strategy</span>
+          <span>Business-focused delivery</span>
+        </div>
+      </div>
+
+      <aside class="hero-aside">
+        <div class="profile-card">
+          <div class="avatar" aria-hidden="true">✦</div>
+          <h3>AI Enablement Lead in Progress</h3>
+          <p>Focused on secure AI systems, operational readiness, and stakeholder enablement across Azure environments.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Portfolio signal</h2>
+        <p>I’m building evidence of AI capability for recruiters and hiring managers who care about lead-level thinking, not just demos.</p>
+      </div>
+      <div class="stats-grid">
+        {% for value, label in stats %}
+        <div class="stat-card">
+          <strong>{{ value }}</strong>
+          <span>{{ label }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Featured project work</h2>
+        <p>Each project is designed to show how I think about responsible AI, business value, and enterprise adoption patterns.</p>
+      </div>
+      <div class="project-grid">
+        {% for project in projects[:3] %}
+        <article class="project-card">
+          <div>
+            <span class="tag">{{ project.category }}</span>
+            <h3>{{ project.title }}</h3>
+            <p>{{ project.summary }}</p>
+          </div>
+          <div>
+            <ul>
+              {% for tool in project.stack[:3] %}
+              <li>{{ tool }}</li>
+              {% endfor %}
+            </ul>
+            <div style="margin-top: 1rem;">
+              <a href="/projects/{{ project.slug }}">View project →</a>
+            </div>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Certification focus</h2>
+        <p>My learning path is intentionally aligned to the Azure AI and administrator foundation required for AI enablement leadership.</p>
+      </div>
+      <div class="cert-grid">
+        {% for cert in certifications %}
+        <article class="cert-card">
+          <span class="tag">{{ cert.status }}</span>
+          <h3>{{ cert.name }}</h3>
+          <p>{{ cert.description }}</p>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</main>
+
+{% include 'partials/footer.html' %}

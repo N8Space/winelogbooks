@@ -1,0 +1,39 @@
+{% include 'partials/header.html' %}
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <span class="kicker">Project portfolio</span>
+      <h1>AI projects built to show capability, value, and execution.</h1>
+      <p>
+        These projects capture the type of problem-solving I want to bring to AI Enablement Lead roles: secure architecture, practical use cases, and measurable business outcomes.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container project-grid">
+      {% for project in projects %}
+      <article class="project-card">
+        <div>
+          <span class="tag">{{ project.category }}</span>
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.summary }}</p>
+        </div>
+        <div>
+          <ul>
+            {% for tool in project.stack %}
+            <li>{{ tool }}</li>
+            {% endfor %}
+          </ul>
+          <div style="margin-top: 1rem;">
+            <a href="/projects/{{ project.slug }}">Read case study →</a>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+
+{% include 'partials/footer.html' %}
