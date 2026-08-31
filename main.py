@@ -54,6 +54,7 @@ PROJECTS = [
         "stack": ["Azure Monitor", "Cost Management", "Entra ID", "Policy", "Dashboards"],
         "story": "This work frames AI enablement as a platform capability, showing how to align technical delivery with compliance, cost visibility, and adoption metrics.",
         "github_url": None,
+        "demo_url": None,
     },
     {
         "slug": "intelligent-knowledge-hub",
@@ -63,7 +64,8 @@ PROJECTS = [
         "outcome": "Improves knowledge accessibility and reduces manual lookup time across departments while establishing a reusable architecture for future AI copilots.",
         "stack": ["RAG", "Azure AI Search", "Python", "FastAPI", "Vector Search"],
         "story": "This project highlights how AI enablement teams can capture institutional knowledge and turn it into an enterprise service with measurable productivity gains.",
-        "github_url": None,
+        "github_url": "https://github.com/N8Space/intelligent-knowledge-hub",
+        "demo_url": "intelligent-knowledge-hub-audyhad0ebbhbzc3.southcentralus-01.azurewebsites.net",
     },
 ]
 
@@ -113,7 +115,7 @@ def render_page(title: str, current_path: str, main_content: str) -> HTMLRespons
     <footer class="footer">
       <div class="container footer-inner">
       <div><strong>Nathan Lester — AI Enablement Lead</strong></div>
-        <div>Available for AI Enablement Lead opportunities • hello@winelogbooks.com</div>
+        <div>Available for AI Enablement Lead opportunities • nathan.scott.lester at gmail dot com</div>
       </div>
     </footer>
   </body>
