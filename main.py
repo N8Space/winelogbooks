@@ -96,15 +96,21 @@ def render_page(title: str, current_path: str, main_content: str) -> HTMLRespons
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="AI Enablement portfolio showcasing Azure AI projects, certification progress, and enterprise adoption work." />
-  <title>{title} — Nathan Lester, AI Enablement Lead</title>
+    <title>{title} — Nathan Lester | AI Enablement Lead</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
     <header class="site-header">
       <div class="container navbar">
         <a class="brand" href="/">
-        <span class="brand-mark">NL</span>
-        <span>Nathan Lester</span>
+          <span class="brand-mark">NL</span>
+          <div class="brand-title">
+            <span class="brand-name">Nathan Lester</span>
+            <span class="brand-subtitle">AI Enablement</span>
+          </div>
         </a>
         <nav class="nav-links" aria-label="Main navigation">
           {''.join(links)}
@@ -114,8 +120,8 @@ def render_page(title: str, current_path: str, main_content: str) -> HTMLRespons
     {main_content}
     <footer class="footer">
       <div class="container footer-inner">
-      <div><strong>Nathan Lester — AI Enablement Lead</strong></div>
-        <div>Available for AI Enablement Lead opportunities • nathan.scott.lester at gmail dot com</div>
+        <div><strong>Nathan Lester</strong> • AI Enablement Lead</div>
+        <div>Available for AI Enablement Lead & Solutions Architecture opportunities • hello@winelogbooks.com</div>
       </div>
     </footer>
   </body>
@@ -137,8 +143,8 @@ def render_project_cards(project_list):
               </div>
               <div>
                 <ul>{stack_items}</ul>
-                <div style="margin-top: 1rem;">
-                  <a href="/projects/{project['slug']}">View project →</a>
+                <div class="card-action">
+                  <a href="/projects/{project['slug']}">View Case Study →</a>
                 </div>
               </div>
             </article>
@@ -160,24 +166,36 @@ async def home():
       <section class="hero">
         <div class="container hero-grid">
           <div>
-            <span class="kicker">AI Enablement Portfolio</span>
-            <h1>Building practical <span class="gradient-text">AI solutions</span><br />for operations, governance, and growth.</h1>
-            <p>I am creating a portfolio of Azure-focused AI projects and enablement work while progressing through the AI-103 and AZ-104 certification paths. My goal is to help teams turn AI ideas into secure, measurable business value.</p>
+            <span class="kicker">Azure AI & Enablement</span>
+            <h1>Architecting <span class="gradient-text">Practical AI Systems</span> with Enterprise Precision.</h1>
+            <p>I build and scale Azure-first AI solutions, agentic workflows, and governance guardrails while completing the AI-103 and AZ-104 certification paths. Connecting technical execution directly to measurable business outcomes.</p>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="/projects">Explore projects</a>
-              <a class="btn btn-secondary" href="/about">Learn my story</a>
+              <a class="btn btn-primary" href="/projects">Explore Projects →</a>
+              <a class="btn btn-secondary" href="/about">About My Background</a>
             </div>
             <div class="hero-meta">
-              <span>Azure-first architecture</span>
-              <span>AI adoption strategy</span>
-              <span>Business-focused delivery</span>
+              <span>Azure Architecture</span>
+              <span>Agentic Workflows</span>
+              <span>AI Governance</span>
             </div>
           </div>
           <aside class="hero-aside">
             <div class="profile-card">
-                          <div class="avatar" aria-hidden="true">NL</div>
-                          <h3>Nathan Lester — AI Enablement Lead</h3>
-              <p>Focused on secure AI systems, operational readiness, and stakeholder enablement across Azure environments.</p>
+              <div class="hud-corner top-left"></div>
+              <div class="hud-corner top-right"></div>
+              <div class="hud-corner bottom-left"></div>
+              <div class="hud-corner bottom-right"></div>
+              <div class="avatar-box">
+                <iframe
+                  src="https://www.youtube-nocookie.com/embed/V-cfCoKe1TQ?autoplay=1&mute=1&controls=0&autohide=1&modestbranding=1&enablejsapi=1&cc_load_policy=1&cc_lang_pref=en&playsinline=1&rel=0&loop=1&playlist=V-cfCoKe1TQ"
+                  title="Nathan Lester — AI Enablement Introduction"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <h3>Nathan Lester</h3>
+              <div class="profile-role">AI Enablement Lead</div>
+              <p>Specializing in secure AI systems, multi-agent frameworks, operational readiness, and cloud governance across enterprise Azure environments.</p>
             </div>
           </aside>
         </div>
