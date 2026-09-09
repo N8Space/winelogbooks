@@ -9,6 +9,8 @@ STATIC_DIR = BASE_DIR / "static"
 TEMPLATES_DIR = BASE_DIR / "templates"
 AI_SDLC_STUDIO_FILE = TEMPLATES_DIR / "ai_sdlc_studio.html"
 AI_SDLC_STUDIO_HTML = AI_SDLC_STUDIO_FILE.read_text(encoding="utf-8") if AI_SDLC_STUDIO_FILE.exists() else ""
+AI_ENGINEER_BLUEPRINT_FILE = TEMPLATES_DIR / "ai_engineer_blueprint.html"
+AI_ENGINEER_BLUEPRINT_HTML = AI_ENGINEER_BLUEPRINT_FILE.read_text(encoding="utf-8") if AI_ENGINEER_BLUEPRINT_FILE.exists() else ""
 
 app = FastAPI(
     title="AI Enablement Portfolio",
@@ -37,6 +39,24 @@ CERTIFICATIONS = [
 ]
 
 PROJECTS = [
+    {
+        "slug": "ai-engineer-blueprint",
+        "title": "The AI Engineer Blueprint: Architecture & Deployment Decision Engine",
+        "category": "Systems Architecture & Agent Factory",
+        "summary": "The structured decision framework that decouples computational architecture ('What AI do I need?') from infrastructure deployment ('Where should I run it?'). Includes interactive matrices, factory best practices, and copy-ready system instructions.",
+        "outcome": "Codified enterprise architectural decision logic into an autonomous agent prompt, preventing over-engineering and token waste while establishing Anthropic-standard single-agent and ACI engineering discipline.",
+        "stack": [
+            "Systems Architecture",
+            "Agent Factory Design",
+            "Two-Stage Decision Logic",
+            "Anthropic Engineering Guidelines",
+            "FastAPI & Uvicorn",
+        ],
+        "story": "Enterprise Generative AI initiatives frequently fall into the over-engineering trap—deploying multi-agent swarms for simple tasks or over-paying for cloud clusters when local or VPS sandboxes suffice. I architected a two-stage decision framework evaluating task complexity, determinism, data sovereignty, and operational boundaries, complete with an interactive matrix simulator and codified system prompt.",
+        "github_url": "https://github.com/N8Space",
+        "demo_url": None,
+        "is_featured": True,
+    },
     {
         "slug": "ai-sdlc-studio",
         "title": "Autonomous AI SDLC Studio & Multi-Agent Test Harness",
@@ -279,10 +299,17 @@ async def project_ai_sdlc_studio():
     return HTMLResponse(AI_SDLC_STUDIO_HTML)
 
 
+@app.get("/projects/ai-engineer-blueprint", response_class=HTMLResponse)
+async def project_ai_engineer_blueprint():
+    return HTMLResponse(AI_ENGINEER_BLUEPRINT_HTML)
+
+
 @app.get("/projects/{slug}", response_class=HTMLResponse)
 async def project_detail(slug: str):
     if slug == "ai-sdlc-studio":
         return HTMLResponse(AI_SDLC_STUDIO_HTML)
+    if slug == "ai-engineer-blueprint":
+        return HTMLResponse(AI_ENGINEER_BLUEPRINT_HTML)
 
     project = next((item for item in PROJECTS if item["slug"] == slug), None)
     if project is None:
