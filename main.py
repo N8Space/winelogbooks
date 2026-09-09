@@ -6,6 +6,9 @@ from fastapi.staticfiles import StaticFiles
 
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
+TEMPLATES_DIR = BASE_DIR / "templates"
+AI_SDLC_STUDIO_FILE = TEMPLATES_DIR / "ai_sdlc_studio.html"
+AI_SDLC_STUDIO_HTML = AI_SDLC_STUDIO_FILE.read_text(encoding="utf-8") if AI_SDLC_STUDIO_FILE.exists() else ""
 
 app = FastAPI(
     title="AI Enablement Portfolio",
@@ -34,6 +37,24 @@ CERTIFICATIONS = [
 ]
 
 PROJECTS = [
+    {
+        "slug": "ai-sdlc-studio",
+        "title": "Autonomous AI SDLC Studio & Multi-Agent Test Harness",
+        "category": "Agentic AI & SDLC Harness",
+        "summary": "An enterprise-grade, self-improving 9-stage multi-agent software factory. Features deterministic $0 compute fast-paths, a hybrid vector memory bank (ChromaDB + JSON), self-healing test harnesses, and automated multi-viewport UI/UX verification. Proven by shipping 'RegPulse' with 100% automated test coverage.",
+        "outcome": "Shipped 'RegPulse' proof with 20/20 automated tests passing, 98/100 UI/UX accessibility score (Grade A+, WCAG 2.1 AA), SQLite WAL concurrency, and GZip payload compression reducing transfer size by ~80%.",
+        "stack": [
+            "Multi-Agent Systems",
+            "ChromaDB Vector Store",
+            "Self-Healing TDD",
+            "FastAPI & SQLite WAL",
+            "n8n Webhook Gates",
+        ],
+        "story": "To prevent enterprise GenAI initiatives from stalling in proof-of-concept stages, I architected a disciplined 9-stage autonomous multi-agent software development lifecycle (SDLC) harness. The studio enforces strict separation of concerns across specialized agents, deterministic cost governance ($0 fast-paths via DOM sanitization and SHA-256 fingerprinting), persistent hybrid vector memory (ChromaDB + JSON), multi-viewport UI/UX visual audits, and human-in-the-loop n8n approval gates.",
+        "github_url": "https://github.com/N8Space",
+        "demo_url": None,
+        "is_featured": True,
+    },
     {
         "slug": "newsgenie",
         "title": "NewsGenie: Multi-Tool Real-Time News & Research Agent",
@@ -70,7 +91,7 @@ PROJECTS = [
 ]
 
 STATS = [
-    ("3+", "AI projects in progress"),
+    ("4+", "AI projects showcased"),
     ("AI-103", "and AZ-104 certification path"),
     ("100%", "focused on Azure enablement"),
 ]
@@ -121,7 +142,7 @@ def render_page(title: str, current_path: str, main_content: str) -> HTMLRespons
     <footer class="footer">
       <div class="container footer-inner">
         <div><strong>Nathan Lester</strong> • AI Enablement Lead</div>
-        <div>Available for AI Enablement Lead & Solutions Architecture opportunities • hello@winelogbooks.com</div>
+        <div>Available for AI Enablement Lead & Solutions Architecture opportunities • <a href="mailto:hello@nathanscottlester.com">hello@nathanscottlester.com</a></div>
       </div>
     </footer>
   </body>
@@ -132,10 +153,11 @@ def render_page(title: str, current_path: str, main_content: str) -> HTMLRespons
 def render_project_cards(project_list):
     cards = []
     for project in project_list:
-        stack_items = ''.join(f'<li>{item}</li>' for item in project["stack"][:3])
+        featured_cls = " featured-project" if project.get("is_featured") else ""
+        stack_items = ''.join(f'<li>{item}</li>' for item in project["stack"])
         cards.append(
             f"""
-            <article class="project-card">
+            <article class="project-card{featured_cls}">
               <div>
                 <span class="tag">{project['category']}</span>
                 <h3>{project['title']}</h3>
@@ -155,7 +177,7 @@ def render_project_cards(project_list):
 
 @app.get("/", response_class=HTMLResponse)
 async def home():
-    project_cards = render_project_cards(PROJECTS[:3])
+    project_cards = render_project_cards(PROJECTS)
     stat_cards = ''.join(f'<div class="stat-card"><strong>{value}</strong><span>{label}</span></div>' for value, label in STATS)
     cert_cards = ''.join(
         f'<article class="cert-card"><span class="tag">{cert["status"]}</span><h3>{cert["name"]}</h3><p>{cert["description"]}</p></article>'
@@ -252,8 +274,16 @@ async def projects():
     return render_page("Project Portfolio", "/projects", body)
 
 
+@app.get("/projects/ai-sdlc-studio", response_class=HTMLResponse)
+async def project_ai_sdlc_studio():
+    return HTMLResponse(AI_SDLC_STUDIO_HTML)
+
+
 @app.get("/projects/{slug}", response_class=HTMLResponse)
 async def project_detail(slug: str):
+    if slug == "ai-sdlc-studio":
+        return HTMLResponse(AI_SDLC_STUDIO_HTML)
+
     project = next((item for item in PROJECTS if item["slug"] == slug), None)
     if project is None:
         return render_page(
