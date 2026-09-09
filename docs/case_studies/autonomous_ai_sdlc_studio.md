@@ -14,6 +14,8 @@ To solve this, I architected the **Autonomous AI SDLC Studio**—a disciplined, 
 
 ## 🔁 The 9-Stage AI SDLC Loop
 
+![The 9-Stage AI SDLC Loop](../../static/img/ai_sdlc_loop.jpg)
+
 ```
 [01 Product Strategist]   ──► Synthesizes market ICPs, JTBD, & human-facing UI scope (PRD)
          │  (Human Approval Gate)
