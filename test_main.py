@@ -87,3 +87,35 @@ def test_not_found_project():
     response = client.get("/projects/unknown-slug")
     assert response.status_code == 200
     assert "Project not found" in response.text
+
+
+def test_canonical_urls_and_metadata():
+    home_resp = client.get("/")
+    assert home_resp.status_code == 200
+    assert '<link rel="canonical" href="https://www.nathanscottlester.com" />' in home_resp.text
+    assert 'property="og:url" content="https://www.nathanscottlester.com"' in home_resp.text
+
+    blueprint_resp = client.get("/projects/ai-engineer-blueprint")
+    assert blueprint_resp.status_code == 200
+    assert '<link rel="canonical" href="https://www.nathanscottlester.com/projects/ai-engineer-blueprint" />' in blueprint_resp.text
+
+    studio_resp = client.get("/projects/ai-sdlc-studio")
+    assert studio_resp.status_code == 200
+    assert '<link rel="canonical" href="https://www.nathanscottlester.com/projects/ai-sdlc-studio" />' in studio_resp.text
+
+
+def test_robots_txt():
+    response = client.get("/robots.txt")
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("text/plain")
+    assert "Sitemap: https://www.nathanscottlester.com/sitemap.xml" in response.text
+
+
+def test_sitemap_xml():
+    response = client.get("/sitemap.xml")
+    assert response.status_code == 200
+    assert "application/xml" in response.headers["content-type"]
+    assert "https://www.nathanscottlester.com" in response.text
+    assert "https://www.nathanscottlester.com/projects/ai-sdlc-studio" in response.text
+    assert "https://www.nathanscottlester.com/projects/ai-engineer-blueprint" in response.text
+

@@ -1,6 +1,6 @@
 # Case Study: The AI Engineer Blueprint (Architecture & Deployment Decision Engine)
 **Author:** Nathan Lester | AI Enablement Lead  
-**Portfolio:** [www.nathanscottlester.com](https://www.nathanscottlester.com) (winelogbooks.com)  
+**Portfolio:** [www.nathanscottlester.com](https://www.nathanscottlester.com)  
 **Contact:** [hello@nathanscottlester.com](mailto:hello@nathanscottlester.com)  
 
 ---

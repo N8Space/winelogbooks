@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -130,6 +130,9 @@ def render_page(title: str, current_path: str, main_content: str) -> HTMLRespons
         target = ' target="_blank"' if path == "/docs" else ""
         links.append(f'<a href="{path}"{active}{target}>{label}</a>')
 
+    canonical_path = current_path if current_path != "/" else ""
+    canonical_url = f"https://www.nathanscottlester.com{canonical_path}"
+
     return HTMLResponse(
         f"""<!DOCTYPE html>
 <html lang="en">
@@ -138,6 +141,13 @@ def render_page(title: str, current_path: str, main_content: str) -> HTMLRespons
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="AI Enablement portfolio showcasing Azure AI projects, certification progress, and enterprise adoption work." />
     <title>{title} — Nathan Lester | AI Enablement Lead</title>
+    <link rel="canonical" href="{canonical_url}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{canonical_url}" />
+    <meta property="og:site_name" content="Nathan Lester | AI Enablement Portfolio" />
+    <meta property="og:title" content="{title} — Nathan Lester | AI Enablement Lead" />
+    <meta property="og:description" content="AI Enablement portfolio showcasing Azure AI projects, certification progress, and enterprise adoption work." />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -415,3 +425,39 @@ async def about():
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "runtime": "Python 3.13"}
+
+
+@app.get("/robots.txt", response_class=PlainTextResponse)
+async def robots_txt():
+    content = """User-agent: *
+Allow: /
+
+Sitemap: https://www.nathanscottlester.com/sitemap.xml
+"""
+    return PlainTextResponse(content, media_type="text/plain")
+
+
+@app.get("/sitemap.xml")
+async def sitemap_xml():
+    routes = [
+        "",
+        "/projects",
+        "/projects/ai-sdlc-studio",
+        "/projects/ai-engineer-blueprint",
+        "/about",
+    ]
+    for project in PROJECTS:
+        slug_route = f"/projects/{project['slug']}"
+        if slug_route not in routes:
+            routes.append(slug_route)
+
+    xml_lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for route in routes:
+        loc = f"https://www.nathanscottlester.com{route}"
+        xml_lines.append(f"  <url><loc>{loc}</loc><changefreq>weekly</changefreq><priority>{'1.0' if route == '' else '0.8'}</priority></url>")
+    xml_lines.append("</urlset>")
+
+    return Response(content="\n".join(xml_lines), media_type="application/xml")

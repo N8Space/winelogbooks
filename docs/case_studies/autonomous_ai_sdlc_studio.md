@@ -1,6 +1,6 @@
 # Case Study: Autonomous AI SDLC Studio & Multi-Agent Test Harness
 **Author:** Nathan Lester | AI Enablement Lead  
-**Portfolio:** [www.nathanscottlester.com](https://www.nathanscottlester.com) (formerly winelogbooks.com)  
+**Portfolio:** [www.nathanscottlester.com](https://www.nathanscottlester.com)  
 **Contact:** [hello@nathanscottlester.com](mailto:hello@nathanscottlester.com)  
 
 ---
