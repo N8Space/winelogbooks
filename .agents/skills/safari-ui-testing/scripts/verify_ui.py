@@ -90,6 +90,11 @@ def verify_page(url, browser="auto", output_dir="screenshots", viewports=None):
         # Check key components
         for sel, name in [
             ("header.site-header", "header"),
+            (".proof-chips", "proof_chips"),
+            (".differentiator-grid", "differentiator_grid"),
+            (".case-study-card", "case_study_cards"),
+            (".competency-matrix", "competency_matrix"),
+            (".midwest-banner", "midwest_banner"),
             ("table.matrix-table", "matrix_tables"),
             (".simulator-panel", "decision_simulator"),
             (".code-window", "code_window"),
@@ -112,6 +117,16 @@ def verify_page(url, browser="auto", output_dir="screenshots", viewports=None):
                 time.sleep(0.4)
                 results["interactions"].append(f"Clicked simulator button: {btn_text}")
 
+        # Test copy email button if present
+        email_copy_btns = driver.find_elements(By.CSS_SELECTOR, ".copy-btn")
+        if email_copy_btns:
+            print("✉️ Testing Copy Direct Email button...")
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", email_copy_btns[0])
+            time.sleep(0.3)
+            driver.execute_script("arguments[0].click();", email_copy_btns[0])
+            time.sleep(0.4)
+            results["interactions"].append("Clicked copy-btn for email")
+
         # Test copy prompt button if present
         copy_btns = driver.find_elements(By.ID, "copyPromptBtn")
         if copy_btns:
@@ -123,7 +138,27 @@ def verify_page(url, browser="auto", output_dir="screenshots", viewports=None):
             btn_text_after = copy_btns[0].text
             results["interactions"].append(f"Clicked copyPromptBtn (text: {btn_text_after})")
 
+        # Section captures for executive portfolio
+        sections = [
+            ("hero", "section.hero"),
+            ("differentiator", ".differentiator-grid"),
+            ("case_studies", "#case-studies"),
+            ("competencies", ".competency-matrix"),
+            ("midwest", ".midwest-banner"),
+        ]
+        for sec_name, sec_sel in sections:
+            elems = driver.find_elements(By.CSS_SELECTOR, sec_sel)
+            if elems:
+                driver.execute_script("arguments[0].scrollIntoView({block: 'start'}); window.scrollBy(0, -90);", elems[0])
+                time.sleep(0.5)
+                sec_path = out_path / f"section_{sec_name}.png"
+                driver.save_screenshot(str(sec_path))
+                results["screenshots"][f"section_{sec_name}"] = str(sec_path)
+                print(f"📸 Section captured: {sec_name} -> {sec_path}")
+
         # Capture responsive viewports
+        driver.execute_script("window.scrollTo(0, 0);")
+        time.sleep(0.5)
         for vp_name in viewports:
             if vp_name not in VIEWPORTS:
                 continue

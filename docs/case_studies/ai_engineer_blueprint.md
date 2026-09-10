@@ -15,7 +15,7 @@ To establish governance across my Agent Factory, I created the **AI Engineer Dec
 
 ---
 
-## Decision Matrix: Stage 1 — What AI Architecture Do I Need?
+## Decision Matrix: Stage 1 - What AI Architecture Do I Need?
 
 | Architecture Pattern | Trigger Condition | Best For | Example Use Case |
 | :--- | :--- | :--- | :--- |
@@ -27,7 +27,7 @@ To establish governance across my Agent Factory, I created the **AI Engineer Dec
 
 ---
 
-## Decision Matrix: Stage 2 — Where Should I Run It?
+## Decision Matrix: Stage 2 - Where Should I Run It?
 
 | Deployment Environment | Primary Motivator | Pros | Cons | Example Fit |
 | :--- | :--- | :--- | :--- | :--- |

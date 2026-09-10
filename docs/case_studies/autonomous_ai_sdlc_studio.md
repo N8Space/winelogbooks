@@ -8,7 +8,7 @@
 ## Executive Summary
 Across enterprise engineering organizations, **90% of Generative AI initiatives stall in the "proof of concept" graveyard**. Developers generate rapid code snippets with LLMs, but without systematic engineering guardrails, these systems rapidly accumulate tech debt, break silently under API deprecations, suffer runaway token costs, and fail basic accessibility and operational tests.
 
-To solve this, I architected the **Autonomous AI SDLC Studio**—a disciplined, self-improving 9-stage multi-agent software factory with an integrated test harness. The system converts raw business ideas into production-ready, fully tested, containerized software through a self-healing agentic loop.
+To solve this, I architected the **Autonomous AI SDLC Studio** - a disciplined, self-improving 9-stage multi-agent software factory with an integrated test harness. The system converts raw business ideas into production-ready, fully tested, containerized software through a self-healing agentic loop.
 
 ---
 
@@ -66,7 +66,7 @@ Autonomous does not mean ungoverned. Critical transition gates (PRD approval, ar
 ---
 
 ## 🏆 Concrete Proof: "RegPulse" Regulatory Change Monitor
-To validate the harness, the studio autonomously conceived, architected, and shipped **RegPulse**—a programmatic monitor for slow-moving state regulatory portals lacking RSS feeds or webhooks.
+To validate the harness, the studio autonomously conceived, architected, and shipped **RegPulse** - a programmatic monitor for slow-moving state regulatory portals lacking RSS feeds or webhooks.
 
 ### Outcomes & Verification Metrics:
 - **Test Suite:** 20 / 20 automated tests passing (100%).
