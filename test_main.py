@@ -34,7 +34,8 @@ def test_home_page():
     # Section 3: Case Studies (Business Focus)
     assert "Enterprise Knowledge Hub: Intelligent Search &amp; Retrieval" in html or "Enterprise Knowledge Hub: Intelligent Search & Retrieval" in html
     assert "Semi-Autonomous Agent Factory &amp; Harness" in html or "Semi-Autonomous Agent Factory & Harness" in html
-    assert "Resume Refine: AI-Powered Career Assistant (Mobile iOS)" in html
+    assert "Call-Agent: Production Voice AI &amp; Missed-Call Recovery Microservice" in html
+    assert 'href="/projects/call-agent"' in html
     assert "featured-project" in html
 
     # Section 4 / Removed Sections Check
@@ -49,6 +50,71 @@ def test_home_page():
     assert "Copy Direct Email" in html
     assert "Targeting roles in Chicago • Milwaukee • Indianapolis • Remote" in html
 
+    # Section 5: Phone + in-browser voice agent
+    assert "Call AI Assistant: +1 (888) 600-3783" in html
+    assert 'onclick="copyPhone(this)"' in html
+    assert "Talk to Nova Live in Browser" in html
+    assert 'href="tel:+18886003783"' in html
+
+
+def test_voice_agent_modal_on_layout_pages():
+    for path in ["/", "/projects", "/about", "/projects/call-agent", "/projects/newsgenie"]:
+        html = client.get(path).text
+        assert '<dialog id="voice-agent-modal"' in html, path
+        assert "Speak with Nova" in html, path
+        assert 'src="/static/voice-agent.js"' in html, path
+
+
+def test_voice_agent_script_served():
+    response = client.get("/static/voice-agent.js")
+    assert response.status_code == 200
+    js = response.text
+    for fn in ["copyPhone", "openVoiceAgentModal", "closeVoiceAgentModal", "startWebVoiceCall", "endWebVoiceCall"]:
+        assert f"window.{fn} = {fn}" in js
+    assert "+18886003783" in js
+
+
+def test_call_agent_case_study_route():
+    response = client.get("/projects/call-agent")
+    assert response.status_code == 200
+    html = response.text
+    assert "Call-Agent: Production Voice AI &amp; Missed-Call Recovery Microservice" in html
+    assert "Production Telephony &amp; Voice AI Engineering" in html
+    for heading in [
+        "The Challenge: The Reality of Voice AI Latency &amp; Dead Air",
+        "The Architecture: Decoupled Dual-Pipeline Model",
+        "Interactive Sandbox: Test Nova Live",
+        "Measurable Engineering &amp; Business Outcomes",
+        "Architectural Stack &amp; Tools",
+        "Why It Matters",
+        "Telephony Specifications",
+        "Related Case Studies",
+    ]:
+        assert heading in html, heading
+    assert '/static/img/call-agent-architecture.png' in html
+    assert '<link rel="canonical" href="https://www.nathanscottlester.com/projects/call-agent" />' in html
+    for slug in ["intelligent-knowledge-hub", "ai-sdlc-studio", "ai-engineer-blueprint", "newsgenie", "azure-governance-dashboard"]:
+        assert f'href="/projects/{slug}"' in html, slug
+    assert "—" not in html
+
+
+def test_call_agent_architecture_image_served():
+    response = client.get("/static/img/call-agent-architecture.png")
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "image/png"
+
+
+def test_no_resume_refine_references_remain():
+    paths = [
+        "/", "/projects", "/about", "/projects/call-agent", "/projects/ai-sdlc-studio",
+        "/projects/ai-engineer-blueprint", "/projects/newsgenie",
+        "/projects/azure-governance-dashboard", "/projects/intelligent-knowledge-hub", "/sitemap.xml",
+    ]
+    for path in paths:
+        html = client.get(path).text
+        assert "Resume Refine" not in html, path
+        assert "resume-refine" not in html, path
+    assert "Project not found" in client.get("/projects/resume-refine").text
 
 def test_resume_download_route():
     response = client.get("/static/Nathan_Lester_Executive_Resume.pdf")
@@ -65,7 +131,7 @@ def test_projects_page():
     assert "/projects/ai-sdlc-studio" in html
     assert "/projects/ai-engineer-blueprint" in html
     assert "Semi-Autonomous Agent Factory &amp; Harness" in html or "Semi-Autonomous Agent Factory & Harness" in html
-    assert "resume-refine" in html
+    assert "call-agent" in html
     assert "newsgenie" in html
     assert "azure-governance-dashboard" in html
     assert "intelligent-knowledge-hub" in html
@@ -115,7 +181,7 @@ def test_ai_engineer_blueprint_route():
 
 
 def test_existing_projects():
-    for slug in ["newsgenie", "azure-governance-dashboard", "intelligent-knowledge-hub", "resume-refine"]:
+    for slug in ["newsgenie", "azure-governance-dashboard", "intelligent-knowledge-hub", "call-agent"]:
         response = client.get(f"/projects/{slug}")
         assert response.status_code == 200
         assert "—" not in response.text
@@ -177,4 +243,5 @@ def test_sitemap_xml():
     assert "https://www.nathanscottlester.com" in response.text
     assert "https://www.nathanscottlester.com/projects/ai-sdlc-studio" in response.text
     assert "https://www.nathanscottlester.com/projects/ai-engineer-blueprint" in response.text
+    assert "https://www.nathanscottlester.com/projects/call-agent" in response.text
 

@@ -77,20 +77,23 @@ PROJECTS = [
         "is_featured": True,
     },
     {
-        "slug": "resume-refine",
-        "title": "Resume Refine: AI-Powered Career Assistant (Mobile iOS)",
-        "category": "Mobile Product & Cloud AI Integration",
-        "summary": "A consumer-grade native iOS application that empowers job seekers to analyze, polish, and tailor their resumes in real time using Google Gemini and FastAPI cloud services.",
-        "outcome": "Delivered an intuitive, responsive mobile experience with sub-second perceived response time, resilient prompt guardrails, and robust offline state handling.",
+        "slug": "call-agent",
+        "title": "Call-Agent: Production Voice AI & Missed-Call Recovery Microservice",
+        "category": "Telephony & Voice AI Engineering",
+        "summary": "A 100% self-contained FastAPI microservice on Docker and Hostinger VPS. Engineered with sub-500ms mid-call tools, Cal.com calendar synchronization, and automated SMS recovery.",
+        "outcome": "Sub-800ms conversational turnaround, zero dead air through strict tool timeouts, sub-50ms webhook acknowledgements, and automated missed-call SMS recovery over carrier-compliant toll-free messaging.",
         "stack": [
-            "SwiftUI / iOS",
-            "Google Gemini",
-            "FastAPI & Python",
-            "Automated Workflows",
-            "API Gateway",
+            "FastAPI & Python 3.12+",
+            "Retell AI Voice Engine",
+            "Docker & Nginx (VPS)",
+            "Cal.com API v2",
+            "Twilio / Telnyx SMS",
+            "Async SQLAlchemy 2.0",
+            "HMAC-SHA256 Security",
         ],
-        "story": "Building a commercial mobile application provided hands-on experience solving real user ergonomics: network latency, prompt resilience, structured JSON validation, and tactile mobile interactions. The client connects a SwiftUI interface through an API Gateway to a FastAPI/Python backend worker and Google Gemini with schema validation.",
-        "github_url": "https://github.com/N8Space",
+        "story": "Off-the-shelf voice bots and no-code automation tools suffer from unpredictable latency, mid-conversation dead air, and fragile tool execution. Call-Agent is a dual-pipeline FastAPI microservice that keeps live tools under a strict latency budget and moves every slow task to non-blocking post-call processing.",
+        # Repository is private; keep None so no public page links to a 404.
+        "github_url": None,
         "demo_url": None,
         "is_featured": True,
     },
@@ -139,6 +142,41 @@ PROJECTS = [
 STATS = [
     ("3", "Midwest anchor hubs (CHI • MKE • IND)"),
 ]
+
+NOVA_PHONE_E164 = "+18886003783"
+NOVA_PHONE_DISPLAY = "+1 (888) 600-3783"
+CAL_BOOKING_URL = "https://cal.com/nathan-scott-lester/interview-scheduled"
+
+# Shared "Speak with Nova" modal, rendered once per layout page and driven by
+# /static/voice-agent.js. Uses a native <dialog> for focus handling and Esc.
+VOICE_AGENT_MODAL_HTML = f"""
+    <dialog id="voice-agent-modal" class="voice-modal" closedby="any" aria-labelledby="voice-modal-title">
+      <form method="dialog" class="voice-modal-close-form">
+        <button class="voice-modal-close" aria-label="Close voice modal">×</button>
+      </form>
+      <div class="voice-modal-header">
+        <span class="kicker">Live Production AI Assistant</span>
+        <h2 id="voice-modal-title">Speak with Nova</h2>
+        <p class="voice-subtitle">Nathan Lester's AI Executive Assistant • Connected to Live Calendar</p>
+      </div>
+      <div class="voice-visualizer-container">
+        <div id="voice-orb" class="voice-orb" aria-hidden="true">
+          <div class="voice-orb-pulse"></div>
+          <div class="voice-orb-icon">🎙️</div>
+        </div>
+        <div id="voice-status" class="voice-status-text" role="status" aria-live="polite">Click Start Voice Call to speak via your browser microphone</div>
+        <div class="voice-latency-badge"><span class="chip-dot green"></span> Engine: Retell Neural Voice &bull; &lt; 800ms Latency</div>
+      </div>
+      <div class="voice-modal-actions">
+        <button id="btn-start-call" type="button" class="btn btn-primary" onclick="startWebVoiceCall()" autofocus>Start Voice Call</button>
+        <button id="btn-end-call" type="button" class="btn btn-danger" onclick="endWebVoiceCall()" hidden>End Call</button>
+      </div>
+      <div class="voice-modal-fallback">
+        <span>Prefer dialing from your phone?</span>
+        <a href="tel:{NOVA_PHONE_E164}" class="phone-link">{NOVA_PHONE_DISPLAY}</a>
+        <span class="fallback-note">Hang-ups or missed calls automatically receive a follow-up SMS with Nathan's direct calendar link.</span>
+      </div>
+    </dialog>"""
 
 
 def render_page(title: str, current_path: str, main_content: str) -> HTMLResponse:
@@ -196,9 +234,11 @@ def render_page(title: str, current_path: str, main_content: str) -> HTMLRespons
     <footer class="footer">
       <div class="container footer-inner">
         <div><strong>Nathan Lester</strong> • AI Enablement &amp; Innovation Leader Applying AI</div>
-        <div>Targeting roles in Chicago • Milwaukee • Indianapolis • Remote • <a href="mailto:hello@nathanscottlester.com">hello@nathanscottlester.com</a></div>
+        <div>Targeting roles in Chicago • Milwaukee • Indianapolis • Remote • <a href="tel:+18886003783">+1 (888) 600-3783</a> • <a href="mailto:hello@nathanscottlester.com">hello@nathanscottlester.com</a></div>
       </div>
     </footer>
+    {VOICE_AGENT_MODAL_HTML}
+    <script src="/static/voice-agent.js" defer></script>
     <script>
       function copyEmail(btn) {{
         navigator.clipboard.writeText("hello@nathanscottlester.com").then(function() {{
@@ -507,51 +547,54 @@ async def home():
             </div>
           </article>
 
-          <!-- Case Study 3: Resume Refine Mobile iOS -->
-          <article class="case-study-card">
+          <!-- Case Study 3: Call-Agent Production Voice AI -->
+          <article class="case-study-card featured-project">
             <div class="case-study-header">
               <div>
-                <span class="category-badge">Mobile Product &amp; Cloud AI Integration</span>
-                <h3>Case Study 3: Resume Refine: AI-Powered Career Assistant (Mobile iOS)</h3>
+                <span class="category-badge">Production Telephony &amp; Voice AI Engineering</span>
+                <h3>Case Study 3: Call-Agent: Production Voice AI &amp; Missed-Call Recovery Microservice</h3>
               </div>
-              <a class="btn btn-primary" href="/projects/resume-refine">View Case Study →</a>
+              <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                <a class="btn btn-primary" href="/projects/call-agent">View Case Study →</a>
+                <button type="button" class="btn btn-secondary" onclick="openVoiceAgentModal()">Talk to Nova (WebRTC) 🎙️</button>
+              </div>
             </div>
             <div class="case-story-grid">
               <div class="story-narrative">
-                <h4>// The User Friction</h4>
+                <h4>// The Operational Friction</h4>
                 <p>
-                  Job applicants often struggle to tailor their resumes effectively for distinct roles and career transitions. Standard chatbot interfaces feel clunky on mobile devices and lack clear, structured guidance.
+                  Off-the-shelf voice bots and no-code automation tools (n8n/Make) suffer from unpredictable latency, awkward mid-conversation dead air (&gt;3s), fragile tool execution, and lack of carrier compliance. In voice AI, latency over 800ms breaks conversational cadence, causing immediate caller hang-ups.
                 </p>
                 <div class="real-obstacle">
-                  <strong>The Mobile AI Challenge:</strong> Delivering an AI-powered experience on mobile requires solving sub-second responsiveness, structured JSON formatting, prompt resilience, and graceful handling of poor network connectivity.
+                  <strong>The Zero-Dead-Air Trap:</strong> Synchronous calendar queries and CRM lookups can stall during live speech. Without strict timeout fallbacks and asynchronous post-call decoupling, API latency leaves callers stranded in dead air.
                 </div>
                 <h4>// The Practical Solution</h4>
                 <p>
-                  Developed a native iOS application in SwiftUI backed by a secure API Gateway, Python backend workers, and Google Gemini with structured schema validation. Provides job seekers with instant, constructive feedback and actionable resume enhancements.
+                  Architected a self-contained <strong>FastAPI</strong> microservice in Docker with an <strong>Nginx</strong> reverse proxy deployed on a Hostinger VPS. Engineered a dual-pipeline architecture: mid-call synchronous tools execute under a strict <strong>&lt; 500ms budget</strong> with a 3.5s fallback guard for live Cal.com scheduling, while post-call webhooks return an immediate <strong>&lt; 50ms 200 OK ACK</strong> to trigger asynchronous missed-call SMS recovery and audit logging following carrier compliance.
                 </p>
               </div>
               <div class="architecture-box">
-                <h4>// Mobile-to-Cloud Architecture</h4>
+                <h4>// Applied Telephony Pipeline</h4>
                 <div class="arch-pipeline">
                   <div class="arch-flow-diagram">
                     <div class="arch-node">
-                      <span class="node-title">Native iOS SwiftUI Client</span>
-                      <span class="node-tech">Tactile UX • Offline-First State</span>
+                      <span class="node-title">Inbound PSTN / WebRTC Call</span>
+                      <span class="node-tech">Retell AI Neural Voice • &lt; 800ms STT/TTS</span>
                     </div>
-                    <div class="arch-connector">▼ Secure API Gateway &amp; Rate Limiter</div>
+                    <div class="arch-connector">▼ HMAC-SHA256 Signature Verification</div>
                     <div class="arch-node">
-                      <span class="node-title">Backend Worker &amp; Orchestration</span>
-                      <span class="node-tech">FastAPI • Python Workflows</span>
+                      <span class="node-title">Nginx SSL + FastAPI Gateway</span>
+                      <span class="node-tech">Hostinger VPS • Multi-Tenant Routing</span>
                     </div>
-                    <div class="arch-connector">▼ Structured Schema &amp; Guardrails</div>
+                    <div class="arch-connector">▼ Mid-Call Tools (&lt; 500ms Budget)</div>
                     <div class="arch-node">
-                      <span class="node-title">Gemini Multimodal Model</span>
-                      <span class="node-tech">Schema Validation &amp; Retries</span>
+                      <span class="node-title">Cal.com API + Twilio SMS</span>
+                      <span class="node-tech">Live Slots • 3.5s Dead-Air Fallback</span>
                     </div>
-                    <div class="arch-connector">▼ Real-Time UI Render</div>
+                    <div class="arch-connector">▼ Post-Call Non-Blocking BackgroundTasks</div>
                     <div class="arch-node">
-                      <span class="node-title">Intuitive Career Tool</span>
-                      <span class="node-tech">App Store Quality Mobile UX</span>
+                      <span class="node-title">Missed-Call Recovery &amp; Audit Log</span>
+                      <span class="node-tech">&lt; 50ms ACK • Auto-Text • SQLite/Postgres</span>
                     </div>
                   </div>
                 </div>
@@ -559,20 +602,20 @@ async def home():
             </div>
             <div class="business-impact-strip">
               <div class="impact-item">
-                <strong>0-to-1</strong>
-                <span>Full Lifecycle Delivery</span>
+                <strong>&lt; 800ms</strong>
+                <span>Conversational Latency</span>
               </div>
               <div class="impact-item">
-                <strong>Sub-Second</strong>
-                <span>Perceived Native Latency</span>
+                <strong>&lt; 500ms</strong>
+                <span>Mid-Call Tool Execution</span>
               </div>
               <div class="impact-item">
-                <strong>Zero-Crash</strong>
-                <span>Structured Prompt Resilience</span>
+                <strong>&lt; 50ms</strong>
+                <span>Webhook ACK Time</span>
               </div>
               <div class="impact-item">
-                <strong>Native iOS</strong>
-                <span>App Store Quality Experience</span>
+                <strong>100%</strong>
+                <span>Native Async Python (Zero n8n, Make, etc.)</span>
               </div>
             </div>
           </article>
@@ -594,6 +637,13 @@ async def home():
               <button class="copy-btn" onclick="copyEmail(this)">
                 <span>✉</span> Copy Direct Email (hello@nathanscottlester.com)
                 <span class="copy-toast">Copied to Clipboard!</span>
+              </button>
+              <button type="button" class="copy-btn phone-btn" onclick="copyPhone(this)">
+                <span>📞</span> Call AI Assistant: +1 (888) 600-3783
+                <span class="copy-toast">Copied Phone to Clipboard!</span>
+              </button>
+              <button type="button" class="btn btn-primary" onclick="openVoiceAgentModal()">
+                <span>🎙️</span> Talk to Nova Live in Browser →
               </button>
               <a class="btn btn-primary" href="mailto:hello@nathanscottlester.com?subject=Inquiry%20-%20Nathan%20Lester">Start a Conversation →</a>
               <a class="btn btn-secondary" href="https://github.com/N8Space" target="_blank" rel="noopener noreferrer">GitHub Code ↗</a>
@@ -638,6 +688,103 @@ def get_ai_engineer_blueprint_html() -> str:
     return AI_ENGINEER_BLUEPRINT_HTML
 
 
+def render_call_agent_page() -> HTMLResponse:
+    project = next(item for item in PROJECTS if item["slug"] == "call-agent")
+    related = ''.join(
+        f'<li><a href="/projects/{item["slug"]}">{item["title"]}</a></li>'
+        for item in PROJECTS if item["slug"] != "call-agent"
+    )
+    tools = ''.join(f'<li>{tool}</li>' for tool in project["stack"] + ["SQLite / Postgres"])
+
+    body = f"""
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <span class="kicker">Production Telephony &amp; Voice AI Engineering</span>
+          <h1>Call-Agent: Production Voice AI &amp; Missed-Call Recovery Microservice</h1>
+          <p>A self-contained, multi-tenant FastAPI and Retell AI microservice in Docker with an Nginx reverse proxy. Built with &lt;500ms mid-call tools, Cal.com calendar scheduling, and automated SMS lead recovery.</p>
+          <div class="hero-actions" style="margin-top: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button type="button" class="btn btn-primary" onclick="openVoiceAgentModal()">Talk to Nova Live 🎙️</button>
+            <a class="btn btn-secondary" href="tel:{NOVA_PHONE_E164}">Call {NOVA_PHONE_DISPLAY}</a>
+          </div>
+        </div>
+      </section>
+      <section class="section">
+        <div class="container detail-shell">
+          <article class="article-panel">
+            <h2>The Challenge: The Reality of Voice AI Latency &amp; Dead Air</h2>
+            <p>
+              Voice is the least forgiving AI interface. Human conversation runs on a turn-taking rhythm, and once response latency drifts past roughly <strong>800ms</strong> the exchange stops feeling like a conversation. Past about <strong>3 seconds of dead air</strong>, callers assume the line has failed and hang up, and that lead is gone.
+            </p>
+            <p>
+              I learned this first-hand testing the Voice-Activated Drive-Thru Order Taker at <strong>McDonald's</strong>: diesel engines, wind, regional accents and overlapping speech, all under a hard real-time budget. Clean demos hid the problem. Production exposed it. Every slow API call, every blocking database write and every retry showed up as silence on the line.
+            </p>
+            <p>
+              Off-the-shelf voice bots and no-code automation chains (n8n, Make) inherit that risk: unpredictable step latency, fragile tool execution mid-call, and no carrier-compliant path for follow-up messaging.
+            </p>
+
+            <h2>The Architecture: Decoupled Dual-Pipeline Model</h2>
+            <p>Call-Agent splits every call into two pipelines with very different contracts:</p>
+            <ul class="prose-list">
+              <li><strong>Mid-Call Tools (synchronous, &lt; 500ms budget):</strong> Retell AI invokes HMAC-SHA256 signed tool endpoints during live speech for availability lookups and Cal.com bookings. Each tool runs under a strict latency budget with a 3.5s timeout guard that hands Nova a graceful spoken fallback instead of silence.</li>
+              <li><strong>Post-Call Webhooks (asynchronous, &lt; 50ms ACK):</strong> call-ended events are verified, acknowledged with an immediate 200 OK, and handed to FastAPI BackgroundTasks. Missed-call detection, SMS recovery via Twilio / Telnyx, and audit logging with Async SQLAlchemy 2.0 all happen off the critical path.</li>
+              <li><strong>Multi-tenant by design:</strong> tenant routing behind an Nginx SSL reverse proxy on a Hostinger VPS, packaged in Docker, so one service can front multiple numbers and calendars.</li>
+            </ul>
+
+            <h2>System Architecture Diagram</h2>
+            <figure class="arch-image-card">
+              <img src="/static/img/call-agent-architecture.png" alt="Call-Agent architecture: Retell AI voice calls flow through Nginx SSL into a FastAPI microservice that calls Cal.com for scheduling and Twilio or Telnyx for SMS recovery" loading="lazy" decoding="async" />
+              <figcaption>// System Architecture: Retell AI • Nginx SSL • FastAPI Microservice • Cal.com • Twilio / Telnyx SMS</figcaption>
+            </figure>
+
+            <h2>Interactive Sandbox: Test Nova Live</h2>
+            <div class="sandbox-panel">
+              <p>Nova is Nathan's AI executive assistant, connected to his live calendar. Talk to her in the browser, or call the toll-free line from any phone. If you hang up early, you will receive a follow-up text with a direct booking link.</p>
+              <div class="sandbox-actions">
+                <button type="button" class="btn btn-primary" onclick="openVoiceAgentModal()">🎙️ Talk to Nova in Browser</button>
+                <button type="button" class="copy-btn phone-btn" onclick="copyPhone(this)">
+                  <span>📞</span> Copy {NOVA_PHONE_DISPLAY}
+                  <span class="copy-toast">Copied Phone to Clipboard!</span>
+                </button>
+                <a class="btn btn-secondary" href="tel:{NOVA_PHONE_E164}">Dial Directly ↗</a>
+              </div>
+            </div>
+
+            <h2>Measurable Engineering &amp; Business Outcomes</h2>
+            <ul class="prose-list">
+              <li><strong>Sub-800ms turnaround:</strong> conversational cadence preserved end to end, from speech-to-text through tool calls to text-to-speech.</li>
+              <li><strong>Zero dead air:</strong> every mid-call tool is bounded by a timeout guard with a spoken fallback, so callers are never left in silence.</li>
+              <li><strong>100% missed-call SMS recovery:</strong> every hang-up or missed call triggers an automated follow-up text with a direct calendar link.</li>
+              <li><strong>Carrier-grade delivery:</strong> toll-free, carrier-compliant messaging through Twilio and Telnyx, with sub-50ms webhook acknowledgements.</li>
+            </ul>
+
+            <h2>Architectural Stack &amp; Tools</h2>
+            <ul>{tools}</ul>
+          </article>
+          <aside class="sidebar-panel">
+            <h3>Why It Matters</h3>
+            <p>Executive AI enablement has to be grounded in systems that hold up in production. Call-Agent pairs the business strategy of never losing an inbound lead with hands-on, low-latency engineering, which is the gap between a voice demo and a revenue channel.</p>
+            <h3>Telephony Specifications</h3>
+            <ul class="sidebar-list spec-list">
+              <li>Carriers <strong>Twilio / Telnyx</strong></li>
+              <li>Toll-Free Line <strong><a href="tel:{NOVA_PHONE_E164}">{NOVA_PHONE_DISPLAY}</a></strong></li>
+              <li>Voice Latency <strong>&lt; 800ms</strong></li>
+              <li>Mid-Call Tools <strong>&lt; 500ms</strong></li>
+              <li>Webhook ACK <strong>&lt; 50ms</strong></li>
+              <li>Compliance <strong>Carrier-Compliant Toll-Free</strong></li>
+            </ul>
+            <h3 style="margin-top: 2rem;">Book Time with Nathan</h3>
+            <p><a class="btn btn-secondary" href="{CAL_BOOKING_URL}" target="_blank" rel="noopener noreferrer" style="width: 100%;">Open Cal.com ↗</a></p>
+            <h3>Related Case Studies</h3>
+            <ul class="sidebar-list">{related}</ul>
+          </aside>
+        </div>
+      </section>
+    </main>
+    """
+    return render_page(project["title"], "/projects/call-agent", body)
+
+
 @app.get("/projects/ai-sdlc-studio", response_class=HTMLResponse)
 async def project_ai_sdlc_studio():
     return HTMLResponse(get_ai_sdlc_studio_html())
@@ -648,12 +795,19 @@ async def project_ai_engineer_blueprint():
     return HTMLResponse(get_ai_engineer_blueprint_html())
 
 
+@app.get("/projects/call-agent", response_class=HTMLResponse)
+async def project_call_agent():
+    return render_call_agent_page()
+
+
 @app.get("/projects/{slug}", response_class=HTMLResponse)
 async def project_detail(slug: str):
     if slug == "ai-sdlc-studio":
         return HTMLResponse(get_ai_sdlc_studio_html())
     if slug == "ai-engineer-blueprint":
         return HTMLResponse(get_ai_engineer_blueprint_html())
+    if slug == "call-agent":
+        return render_call_agent_page()
 
     project = next((item for item in PROJECTS if item["slug"] == slug), None)
     if project is None:
