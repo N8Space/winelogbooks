@@ -1,4 +1,3 @@
-import pytest
 from fastapi.testclient import TestClient
 
 from main import app
@@ -10,238 +9,173 @@ def test_home_page():
     response = client.get("/")
     assert response.status_code == 200
     html = response.text
-    # Section 1: Hero & Positioning
-    assert "Turning Enterprise Strategy into" in html
-    assert "Practical AI Solutions" in html
-    assert "AI Enablement &amp; Innovation Leader Applying AI" in html or "AI Enablement & Innovation Leader Applying AI" in html
-    assert "McDonald&#39;s" in html or "McDonald's" in html
-    assert "Scooter&#39;s Coffee" in html or "Scooter's Coffee" in html
+
+    # 1. Explanation of who Nathan is with language from the "Executive Story" page
+    assert "McDonald's" in html or "McDonald&#39;s" in html
+    assert "Voice-Activated Drive-Thru Order Taker" in html
+    assert "Scooter's Coffee" in html or "Scooter&#39;s Coffee" in html
     assert "regulated insurance carrier" in html
-    assert "Physicians Mutual" not in html
-    assert "linkedin.com" not in html
-    assert "—" not in html
-    assert "Chicago • Milwaukee • Indianapolis • Remote" in html
-    assert "Download Resume (PDF)" in html
-    assert "/static/Nathan_Lester_Executive_Resume.pdf" in html
+    assert "eliminate routine drudgery" in html
+    assert "What should you build, and how do you design it so teams adopt it safely and reliably?" in html
+    assert "Chicago, IL, Milwaukee, WI, and Indianapolis, IN" in html
 
-    # Section 2: Differentiator Grid
-    assert "Why Hands-On AI Enablement Matters" in html
-    assert "Everyone can build with AI today" in html
-    assert "Human-Centered Enablement &amp; Business Value" in html or "Human-Centered Enablement & Business Value" in html
-    assert "Production Reality &amp; The Edge-Case Test" in html or "Production Reality & The Edge-Case Test" in html
-    assert "Responsible Governance &amp; Cloud Discipline" in html or "Responsible Governance & Cloud Discipline" in html
+    # 2. YouTube video kept as-is + updated language below + 3 required links
+    assert "https://www.youtube-nocookie.com/embed/V-cfCoKe1TQ" in html
+    assert "Specializing in practical AI enablement, solution architecture, and operational readiness." in html
+    assert "operational readiness, and cloud governance across enterprise environments" not in html
+    assert 'href="/static/Nathan-Lester-Resume-20261112.pdf"' in html
+    assert 'href="tel:+18886003783"' in html
+    assert 'href="mailto:hello@nathanscottlester.com"' in html
 
-    # Section 3: Case Studies (Business Focus)
-    assert "Enterprise Knowledge Hub: Intelligent Search &amp; Retrieval" in html or "Enterprise Knowledge Hub: Intelligent Search & Retrieval" in html
-    assert "Semi-Autonomous Agent Factory &amp; Harness" in html or "Semi-Autonomous Agent Factory & Harness" in html
-    assert "Call-Agent: Production Voice AI &amp; Missed-Call Recovery Microservice" in html
-    assert 'href="/projects/call-agent"' in html
-    assert "featured-project" in html
+    # 3. Other main content removed; replaced with 3 case study placeholders
+    assert "Why Hands-On AI Enablement Matters" not in html
+    assert "Semi-Autonomous Agent Factory" not in html
+    assert "Knowledge Hub Chatbot" in html
+    assert "News Chatbot with Tools" in html
+    assert "AI Voice Assistant" in html
+    assert "The Problem" in html
+    assert "The Solution" in html
+    assert "https://github.com/N8Space/intelligent-knowledge-hub" in html
+    assert "https://github.com/N8Space/NewsGenie" in html
 
-    # Section 4 / Removed Sections Check
-    assert "Technical Competency &amp; Ecosystem Matrix" not in html
-    assert "Technical Competency & Ecosystem Matrix" not in html
-    assert "Production AI Systems Architected" not in html
-    assert "Executive AI Strategy" not in html
+    # 4. AI Voice Assistant card on main page: no "Try AI Voice Assistant", no private GitHub link,
+    # and "View Full Case Study" placed in footer actions
+    assert "Try AI Voice Assistant" not in html
+    assert "https://github.com/N8Space/call-agent" not in html
+    assert '<a class="btn btn-primary" href="/projects/call-agent">View Full Case Study →</a>' in html
+    assert '<span class="btn-phone-number">+1 (888) 600-3783</span>' in html
 
-    # Section 5: Midwest Banner & Contact
-    assert "Rooted in the Midwest" in html
-    assert "hello@nathanscottlester.com" in html
-    assert "Copy Direct Email" in html
+    # Case study card upper-right icons
+    assert "case-study-icon--kb" in html
+    assert "case-study-icon--newsgenie" in html
+    assert "case-study-icon--voice" in html
+
+    # Updated Knowledge Hub Chatbot copy on main page
+    assert "I saw support teams spending too much time digging through online reference pages" in html
+    assert "I built an example for demonstration that is a hybrid search chatbot hosted on Azure App Service" in html
+    assert "[Placeholder:" not in html
+
+    # Updated News Chatbot with Tools copy on main page
+    assert "I built this because standard AI models are frozen in time at their training cutoff." in html
+    assert "I designed this assistant to figure out what a user is actually asking and pick the right tool for the job." in html
+
+    # Updated AI Voice Assistant copy on main page
+    assert "I built this because I stay busy and didn't want to miss an important call" in html
+    assert "I designed this as a dependable voice assistant that works right out of the box." in html
+    assert "stop losing prospects and end the game of phone tag." in html
+
+    # 5. Bottom "Rooted in the Midwest..." section removed
+    assert "Rooted in the Midwest" not in html
+
+    # 6. Footer kept
+    assert '<footer class="footer">' in html
     assert "Targeting roles in Chicago • Milwaukee • Indianapolis • Remote" in html
 
-    # Section 5: Phone + in-browser voice agent
-    assert "Call AI Assistant: +1 (888) 600-3783" in html
-    assert 'onclick="copyPhone(this)"' in html
-    assert "Talk to Nova Live in Browser" in html
-    assert 'href="tel:+18886003783"' in html
+    # 7 & 8. Nav links to Case Studies (/projects) and Executive Story (/about) removed
+    assert 'href="/projects"' not in html
+    assert 'href="/about"' not in html
+    assert "Executive Story" not in html
 
 
-def test_voice_agent_modal_on_layout_pages():
-    for path in ["/", "/projects", "/about", "/projects/call-agent", "/projects/newsgenie"]:
-        html = client.get(path).text
-        assert '<dialog id="voice-agent-modal"' in html, path
-        assert "Speak with Nova" in html, path
-        assert 'src="/static/voice-agent.js"' in html, path
+def test_removed_pages_return_404():
+    assert client.get("/projects").status_code == 404
+    assert client.get("/about").status_code == 404
 
 
-def test_voice_agent_script_served():
-    response = client.get("/static/voice-agent.js")
-    assert response.status_code == 200
-    js = response.text
-    for fn in ["copyPhone", "openVoiceAgentModal", "closeVoiceAgentModal", "startWebVoiceCall", "endWebVoiceCall"]:
-        assert f"window.{fn} = {fn}" in js
-    assert "+18886003783" in js
-
-
-def test_call_agent_case_study_route():
-    response = client.get("/projects/call-agent")
-    assert response.status_code == 200
-    html = response.text
-    assert "Call-Agent: Production Voice AI &amp; Missed-Call Recovery Microservice" in html
-    assert "Production Telephony &amp; Voice AI Engineering" in html
-    for heading in [
-        "The Challenge: The Reality of Voice AI Latency &amp; Dead Air",
-        "The Architecture: Decoupled Dual-Pipeline Model",
-        "Interactive Sandbox: Test Nova Live",
-        "Measurable Engineering &amp; Business Outcomes",
-        "Architectural Stack &amp; Tools",
-        "Why It Matters",
-        "Telephony Specifications",
-        "Related Case Studies",
-    ]:
-        assert heading in html, heading
-    assert '/static/img/call-agent-architecture.png' in html
-    assert '<link rel="canonical" href="https://www.nathanscottlester.com/projects/call-agent" />' in html
-    for slug in ["intelligent-knowledge-hub", "ai-sdlc-studio", "ai-engineer-blueprint", "newsgenie", "azure-governance-dashboard"]:
-        assert f'href="/projects/{slug}"' in html, slug
-    assert "—" not in html
-
-
-def test_call_agent_architecture_image_served():
-    response = client.get("/static/img/call-agent-architecture.png")
-    assert response.status_code == 200
-    assert response.headers["content-type"] == "image/png"
-
-
-def test_no_resume_refine_references_remain():
-    paths = [
-        "/", "/projects", "/about", "/projects/call-agent", "/projects/ai-sdlc-studio",
-        "/projects/ai-engineer-blueprint", "/projects/newsgenie",
-        "/projects/azure-governance-dashboard", "/projects/intelligent-knowledge-hub", "/sitemap.xml",
-    ]
-    for path in paths:
-        html = client.get(path).text
-        assert "Resume Refine" not in html, path
-        assert "resume-refine" not in html, path
-    assert "Project not found" in client.get("/projects/resume-refine").text
-
-def test_resume_download_route():
-    response = client.get("/static/Nathan_Lester_Executive_Resume.pdf")
-    assert response.status_code == 200
-    assert response.headers["content-type"] == "application/pdf"
-    assert len(response.content) > 100
-
-
-def test_projects_page():
-    response = client.get("/projects")
-    assert response.status_code == 200
-    html = response.text
-    assert "featured-project" in html
-    assert "/projects/ai-sdlc-studio" in html
-    assert "/projects/ai-engineer-blueprint" in html
-    assert "Semi-Autonomous Agent Factory &amp; Harness" in html or "Semi-Autonomous Agent Factory & Harness" in html
-    assert "call-agent" in html
-    assert "newsgenie" in html
-    assert "azure-governance-dashboard" in html
-    assert "intelligent-knowledge-hub" in html
-    assert "—" not in html
-
-
-def test_ai_sdlc_studio_case_study_route():
-    response = client.get("/projects/ai-sdlc-studio")
-    assert response.status_code == 200
-    html = response.text
-    assert "Semi-Autonomous Agent Factory &amp; Harness" in html or "Semi-Autonomous Agent Factory & Harness" in html
-    assert "Autonomous AI SDLC Studio" not in html
-    assert "automation.lesterlabs.cloud" not in html
-    assert "ompression, and a complete multi-channel GTM launch kit." not in html
-    assert "Architecture &amp; The AI Factory Loop" in html or "Architecture & The AI Factory Loop" in html
-    assert "RegPulse" in html
-    assert "Instant Change Detection &amp; Cost Control ($0 Fast-Paths)" in html or "Instant Change Detection & Cost Control ($0 Fast-Paths)" in html
-    assert "Persistent Institutional Memory Bank" in html
-    assert "Technology Stack &amp; Tooling" not in html
-    assert "Technology Stack & Tooling" not in html
-    assert "hello@nathanscottlester.com" in html
-    assert "—" not in html
-
-
-def test_ai_engineer_blueprint_route():
-    response = client.get("/projects/ai-engineer-blueprint")
-    assert response.status_code == 200
-    html = response.text
-    assert "The AI Engineer Blueprint: Architecture &amp; Deployment Decision Engine" in html or "The AI Engineer Blueprint: Architecture & Deployment Decision Engine" in html
-    assert "What AI Architecture Do I Need?" in html
-    assert "Where Should I Run It?" in html
-    assert "Traditional ML / Rules" in html
-    assert "Direct Prompting" in html
-    assert "RAG (Retrieval-Augmented)" in html
-    assert "Single Agent (with Tools)" in html
-    assert "Multi-Agent / Swarm" in html
-    assert "Local Machine / Edge" in html
-    assert "Self-Hosted VPS (Hostinger)" in html or "Self-Hosted VPS" in html
-    assert "Cloud Hyperscaler (Azure/AWS/GCP)" in html or "Cloud Hyperscaler" in html
-    assert "The AI Engineer: System Instructions" in html
-    assert "ai_engineer_system_prompt.md" in html
-    assert "Start with Single Agents" in html
-    assert "Modular Decoupled Design" in html
-    assert "Acknowledge the ACI" in html
-    assert "hello@nathanscottlester.com" in html
-    assert "—" not in html
-
-
-def test_existing_projects():
-    for slug in ["newsgenie", "azure-governance-dashboard", "intelligent-knowledge-hub", "call-agent"]:
-        response = client.get(f"/projects/{slug}")
+def test_ai_voice_assistant_case_page():
+    for path in ["/projects/call-agent", "/projects/ai-voice-assistant"]:
+        response = client.get(path)
         assert response.status_code == 200
-        assert "—" not in response.text
+        html = response.text
+        # a. Heading updated to "My AI Voice Assistant"
+        assert "<h1>My AI Voice Assistant</h1>" in html
+        assert 'AI Voice Assistant ("Nova") &amp; Missed-Call Recovery' not in html
+        # b. Nova avatar image included
+        assert '/static/img/nova-avatar.png' in html
+        # c. Updated subtitle copy under heading
+        assert (
+            "Nova is built to answer inbound phone calls, book live appointments during the call, "
+            "text back callers if they hang up before scheduling, and answer questions about me on my behalf."
+        ) in html
+        # d. System Specs in dedicated card in main body
+        assert 'class="system-specs-card"' in html
+        assert "System Specs" in html
+        # e. Sidebar Quick Links removed
+        assert "Quick Links" not in html
+        # f. Architectural Stack and Modular Calendar Provider Architecture removed
+        assert "Architectural Stack" not in html
+        assert "Modular Calendar Provider Architecture" not in html
+        # h. All references to GitHub repo ("N8Space/call-agent") removed
+        assert "N8Space/call-agent" not in html
+        assert "https://github.com/N8Space/call-agent" not in html
+        # i. Download link for architecture-diagram.png included
+        assert 'href="/static/img/call-agent-architecture.png" download="architecture-diagram.png"' in html
+        # j. Repository Structure horizontal scroll controls/affordance included
+        assert 'id="repo-structure-pre"' in html
+        assert "Scroll horizontally" in html
+        assert '/static/img/toll-free-opt-in-workflow.jpg' in html
+        assert "Try AI Voice Assistant in Browser" not in html
+        assert '<footer class="footer">' in html
 
 
-def test_about_page():
-    response = client.get("/about")
-    assert response.status_code == 200
-    assert "hello@nathanscottlester.com" in response.text
-    assert "McDonald" in response.text
-    assert "Scooter" in response.text
-    assert "regulated insurance carrier" in response.text
-    assert "Physicians Mutual" not in response.text
-    assert "—" not in response.text
-    assert "Chicago" in response.text
-    assert "Milwaukee" in response.text
-    assert "Indianapolis" in response.text
+def test_call_agent_assets_served():
+    arch_resp = client.get("/static/img/call-agent-architecture.png")
+    assert arch_resp.status_code == 200
+    assert arch_resp.headers["content-type"] == "image/png"
+
+    optin_resp = client.get("/static/img/toll-free-opt-in-workflow.jpg")
+    assert optin_resp.status_code == 200
+    assert optin_resp.headers["content-type"] == "image/jpeg"
+
+    nova_png_resp = client.get("/static/img/nova-avatar.png")
+    assert nova_png_resp.status_code == 200
+    assert nova_png_resp.headers["content-type"] == "image/png"
+
+    nova_avif_resp = client.get("/static/img/nova-avatar.avif")
+    assert nova_avif_resp.status_code == 200
 
 
-def test_health_check():
-    response = client.get("/health")
-    assert response.status_code == 200
-    data = response.json()
-    assert data["status"] == "healthy"
+def test_resume_download_served():
+    for path in [
+        "/static/Nathan-Lester-Resume-20261112.pdf",
+        "/static/Nathan_Lester_Resume.pdf",
+        "/static/Nathan_Lester_Executive_Resume.pdf",
+    ]:
+        response = client.get(path)
+        assert response.status_code == 200
+        assert response.headers["content-type"] == "application/pdf"
+        assert len(response.content) > 1000
 
 
-def test_not_found_project():
-    response = client.get("/projects/unknown-slug")
-    assert response.status_code == 200
-    assert "Project not found" in response.text
+def test_voice_agent_modal_and_script():
+    for path in ["/", "/projects/call-agent"]:
+        html = client.get(path).text
+        assert '<dialog id="voice-agent-modal"' in html
+        assert "Call Nova" in html
+        assert "<span>Nathan Lester's AI Assistant</span>" in html
+        assert '<span class="voice-subtitle-line">Connected to Live Calendar</span>' in html
+        assert "Dial from your phone to speak with Nova" in html
+        assert "Start Voice Call" not in html
+        assert "browser microphone" not in html
+        assert 'src="/static/voice-agent.js"' in html
+
+    js_resp = client.get("/static/voice-agent.js")
+    assert js_resp.status_code == 200
+    for fn in ["copyPhone", "openVoiceAgentModal", "closeVoiceAgentModal"]:
+        assert f"window.{fn} = {fn}" in js_resp.text
 
 
-def test_canonical_urls_and_metadata():
-    home_resp = client.get("/")
-    assert home_resp.status_code == 200
-    assert '<link rel="canonical" href="https://www.nathanscottlester.com" />' in home_resp.text
-    assert 'property="og:url" content="https://www.nathanscottlester.com"' in home_resp.text
+def test_health_robots_and_sitemap():
+    health = client.get("/health")
+    assert health.status_code == 200
+    assert health.json()["status"] == "healthy"
 
-    blueprint_resp = client.get("/projects/ai-engineer-blueprint")
-    assert blueprint_resp.status_code == 200
-    assert '<link rel="canonical" href="https://www.nathanscottlester.com/projects/ai-engineer-blueprint" />' in blueprint_resp.text
+    robots = client.get("/robots.txt")
+    assert robots.status_code == 200
+    assert "Sitemap: https://www.nathanscottlester.com/sitemap.xml" in robots.text
 
-    studio_resp = client.get("/projects/ai-sdlc-studio")
-    assert studio_resp.status_code == 200
-    assert '<link rel="canonical" href="https://www.nathanscottlester.com/projects/ai-sdlc-studio" />' in studio_resp.text
-
-
-def test_robots_txt():
-    response = client.get("/robots.txt")
-    assert response.status_code == 200
-    assert response.headers["content-type"].startswith("text/plain")
-    assert "Sitemap: https://www.nathanscottlester.com/sitemap.xml" in response.text
-
-
-def test_sitemap_xml():
-    response = client.get("/sitemap.xml")
-    assert response.status_code == 200
-    assert "application/xml" in response.headers["content-type"]
-    assert "https://www.nathanscottlester.com" in response.text
-    assert "https://www.nathanscottlester.com/projects/ai-sdlc-studio" in response.text
-    assert "https://www.nathanscottlester.com/projects/ai-engineer-blueprint" in response.text
-    assert "https://www.nathanscottlester.com/projects/call-agent" in response.text
-
+    sitemap = client.get("/sitemap.xml")
+    assert sitemap.status_code == 200
+    assert "https://www.nathanscottlester.com/projects/call-agent" in sitemap.text
+    assert "https://www.nathanscottlester.com/projects</loc>" not in sitemap.text
+    assert "https://www.nathanscottlester.com/about" not in sitemap.text

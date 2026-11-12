@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nathan Lester - Resume</title>
+  <style>
+    @page {
+      size: letter portrait;
+      margin: 0;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Calibri', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #222222;
+      background-color: #ffffff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      width: 8.5in;
+      height: 11in;
+      max-height: 11in;
+      padding: 0.48in 0.54in 0.45in 0.54in;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page:last-child {
+      page-break-after: auto;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .header-name {
+      font-size: 21pt;
+      font-weight: 700;
+      color: #102c57;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+
+    .header-title {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #20457a;
+      margin-top: 4px;
+    }
+
+    .header-contact {
+      font-size: 9.2pt;
+      color: #333333;
+      margin-top: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .header-contact span.sep {
+      color: #555555;
+      font-weight: 400;
+    }
+
+    /* Section Headings */
+    .section-title {
+      font-size: 10.8pt;
+      font-weight: 700;
+      color: #102c57;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      border-bottom: 1.5px solid #102c57;
+      padding-bottom: 2px;
+      margin-top: 11px;
+      margin-bottom: 6px;
+    }
+
+    /* Summary */
+    .summary-text {
+      font-size: 9.4pt;
+      line-height: 1.4;
+      color: #222222;
+    }
+
+    /* Competencies List */
+    .competency-item {
+      font-size: 9.3pt;
+      line-height: 1.38;
+      margin-bottom: 4px;
+      color: #222222;
+    }
+
+    .competency-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .bold-lead {
+      font-weight: 700;
+      color: #111111;
+    }
+
+    /* Experience */
+    .job-block {
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+
+    .job-header {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 2px;
+    }
+
+    .company-name {
+      font-size: 10pt;
+      font-weight: 700;
+      color: #102c57;
+    }
+
+    .job-location {
+      font-size: 9.3pt;
+      font-weight: 400;
+      color: #444444;
+    }
+
+    .role-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .job-title {
+      font-size: 9.5pt;
+      font-weight: 700;
+      font-style: italic;
+      color: #222222;
+    }
+
+    .job-dates {
+      font-size: 9.2pt;
+      color: #444444;
+      font-style: normal;
+    }
+
+    /* Bullets */
+    ul.bullet-list {
+      list-style-type: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    ul.bullet-list li {
+      padding-left: 18px;
+      font-size: 9.3pt;
+      line-height: 1.38;
+      color: #222222;
+      margin-bottom: 4.5px;
+    }
+
+    ul.bullet-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Education & Certifications */
+    .edu-item {
+      font-size: 9.3pt;
+      line-height: 1.42;
+      color: #222222;
+      margin-bottom: 4px;
+    }
+
+    .edu-item:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Toolkit */
+    .toolkit-item {
+      font-size: 9.3pt;
+      line-height: 1.42;
+      color: #222222;
+      margin-bottom: 4px;
+    }
+
+    .toolkit-item:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PAGE 1 ==================== -->
+  <section class="page" id="page1">
+    
+    <!-- Header -->
+    <header class="header">
+      <h1 class="header-name">NATHAN LESTER</h1>
+      <div class="header-title">AI Enablement &amp; Change Leader | AI Adoption &amp; Innovation Strategy</div>
+      <div class="header-contact">
+        <span>hello@nathanscottlester.com</span>
+        <span class="sep">|</span>
+        <span>www.nathanscottlester.com</span>
+        <span class="sep">|</span>
+        <span>Open to Chicago, Milwaukee, Indianapolis, Hybrid</span>
+      </div>
+      <div class="header-contact">
+        <span>Direct: (815) 557-0787</span>
+        <span class="sep">|</span>
+        <span>Book Time with AI Agent: (888) 600-3783</span>
+      </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <section>
+      <h2 class="section-title">EXECUTIVE SUMMARY</h2>
+      <p class="summary-text">
+        Strategic and hands on Innovation &amp; AI Enablement Leader with 15+ years of cross-functional transformation experience bridging advanced technology capabilities and enterprise operational adoption. Proven track record establishing enterprise-wide AI Literacy programs, architecting AI Proof-of-Value (PoV) initiatives, implementing responsible AI guardrails, and driving value realization.
+      </p>
+    </section>
+
+    <!-- Core Competencies & Key Capabilities -->
+    <section>
+      <h2 class="section-title">CORE COMPETENCIES &amp; KEY CAPABILITIES</h2>
+      <div class="competency-item">
+        <span class="bold-lead">AI Strategy &amp; Enablement:</span> AI Literacy, Generative AI Adoption, Proof-of-Value (PoV) Design, Conversational AI &amp; Chatbots, AI Guardrails &amp; Governance, A/B Testing Models, Prompting &amp; Workflow Integration
+      </div>
+      <div class="competency-item">
+        <span class="bold-lead">Change Leadership &amp; Strategy:</span> Change Management, Cross-Functional Alignment, Stakeholder Engagement, Roadmapping, Voice of Customer (VoC), Jobs to Be Done (JTBD), Human Centered Design
+      </div>
+      <div class="competency-item">
+        <span class="bold-lead">Operational Excellence:</span> Business Process Optimization &amp; Re-engineering, Queueing &amp; Agent-Based Simulation, KPI &amp; Value Realization, Vendor &amp; Contract Management
+      </div>
+    </section>
+
+    <!-- Professional Experience (Part 1) -->
+    <section>
+      <h2 class="section-title">PROFESSIONAL EXPERIENCE</h2>
+
+      <!-- Physicians Mutual -->
+      <div class="job-block">
+        <div class="job-header">
+          <span class="company-name">PHYSICIANS MUTUAL</span>
+          <span class="job-location">| Omaha, NE</span>
+        </div>
+        <div class="role-row">
+          <span class="job-title">Innovation Director</span>
+          <span class="job-dates">(04/2024 – Present)</span>
+        </div>
+        <ul class="bullet-list">
+          <li>
+            <span class="bold-lead">Call Center AI Proof-of-Value (PoV):</span> Secured cross-functional leadership alignment and led execution of conversational AI chatbots and intelligence tools, capturing $150K/year in incremental sales, driving a ~50% increase in customer retention, and identifying change barriers to adoption.
+          </li>
+          <li>
+            <span class="bold-lead">Strengthened Fraud, Waste, and Abuse Program:</span> Led FWA Risk Assessment identifying, evaluating, and prioritizing opportunities to strengthen the FWA program and operating model.
+          </li>
+          <li>
+            <span class="bold-lead">Operational Value Realization:</span> Orchestrated comprehensive operational process assessments across multiple departments, uncovering &gt;$2.0M in annual run-rate efficiency savings.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Scooter's Coffee -->
+      <div class="job-block">
+        <div class="job-header">
+          <span class="company-name">SCOOTER'S COFFEE</span>
+          <span class="job-location">| Omaha, NE</span>
+        </div>
+        <div class="role-row">
+          <span class="job-title">Innovation Director – Operations</span>
+          <span class="job-dates">(06/2021 – 04/2024)</span>
+        </div>
+        <ul class="bullet-list">
+          <li>
+            <span class="bold-lead">Cross-Functional Strategic Governance:</span> Spearheaded company Growth Council uniting leaders, franchisees, and external partners to prioritize, fund, and govern breakthrough strategic growth and technology initiatives.
+          </li>
+          <li>
+            <span class="bold-lead">Innovation Lab &amp; Simulation Infrastructure:</span> Built inaugural enterprise Innovation Lab and integrated simulation software, evaluating 5 core platforms and 40 equipment pieces to achieve $400K+ in operational savings in under 6 months.
+          </li>
+          <li>
+            <span class="bold-lead">Agent-Based Drive-Thru Simulation:</span> Conceived and deployed an agent based simulation tool (AnyLogic) modeling customer flow and queueing dynamics, enabling consultants to demonstrate tangible throughput and revenue gains to operators.
+          </li>
+          <li>
+            <span class="bold-lead">Digital Transformation &amp; Mobile Ordering:</span> Directed roll out of Mobile Order Ahead capabilities and dual-lane service models, increasing customer adoption by 10% and doubling drive-thru service capacity.
+          </li>
+        </ul>
+      </div>
+
+      <!-- McDonald's (Romeoville & Chicago) -->
+      <div class="job-block">
+        <div class="job-header">
+          <span class="company-name">MCDONALD'S CORPORATION</span>
+          <span class="job-location">| Romeoville &amp; Chicago, IL</span>
+        </div>
+        <div class="role-row">
+          <span class="job-title">Voice Drive Thru Deployment &amp; Execution Manager | Innovation Execution Manager</span>
+          <span class="job-dates">(10/2018 – 06/2021)</span>
+        </div>
+        <ul class="bullet-list">
+          <li>
+            <span class="bold-lead">Cutting-Edge AI Drive-Thru Deployment:</span> Led roadmap development and conditions-based test, learn, and iterate execution for voice-activated AI drive-thru ordering, accelerating enterprise learning and operational adoption.
+          </li>
+          <li>
+            <span class="bold-lead">Integrated Program Governance:</span> Built governance and communication frameworks aligning multi-disciplinary workstreams (engineering, operations, leadership), unifying disparate tracks into one cohesive execution plan.
+          </li>
+          <li>
+            <span class="bold-lead">Operational Change Management:</span> Directed live restaurant pilot operations across units serving 1M+ customers and generating $6M in sales, designing SOPs, safety standards, and operational training for 100+ managers and crew members.
+          </li>
+        </ul>
+      </div>
+
+    </section>
+  </section>
+
+  <!-- ==================== PAGE 2 ==================== -->
+  <section class="page" id="page2">
+    
+    <!-- Professional Experience (Continued) -->
+    <section>
+      <!-- McDonald's (Oakbrook) -->
+      <div class="job-block" style="margin-top: 0;">
+        <div class="job-header">
+          <span class="company-name">MCDONALD'S CORPORATION</span>
+          <span class="job-location">| Oakbrook, IL</span>
+        </div>
+        <div class="role-row">
+          <span class="job-title">Customer Relationship &amp; Business Process Manager | Sustainability Reporting Lead</span>
+          <span class="job-dates">(05/2012 – 10/2018)</span>
+        </div>
+        <ul class="bullet-list">
+          <li>
+            <span class="bold-lead">Digital Learning Transformation:</span> Replaced legacy in person training with an on demand global eLearning platform, saving $80K annually while creating a scalable, continuous learning culture.
+          </li>
+          <li>
+            <span class="bold-lead">Process Automation &amp; Vendor Optimization:</span> Deployed robotic process automation (RPA) and upgraded analytics tooling, cutting audit turnaround by 50%, reducing manual workload by 15%, and delivering $400K/year in cost reductions.
+          </li>
+          <li>
+            <span class="bold-lead">Enterprise CSR &amp; Data Program ($4M):</span> Designed McDonald's first-ever global sustainability data collection and assurance framework, processing 25K+ data points via custom VBA automation and securing third-party assurance.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Greeley & Hansen -->
+      <div class="job-block" style="margin-top: 10px;">
+        <div class="job-header">
+          <span class="company-name">GREELEY &amp; HANSEN, LLC</span>
+          <span class="job-location">| Chicago, IL</span>
+        </div>
+        <div class="role-row">
+          <span class="job-title">Project Manager &amp; Process Engineer</span>
+          <span class="job-dates">(1997 – 2011)</span>
+        </div>
+        <ul class="bullet-list">
+          <li>
+            <span class="bold-lead">Large-Scale Systems &amp; Program Leadership:</span> Managed technical teams on $50M-$750M capital improvement programs; designed advanced financial and process control models saving $20M+ in lifecycle costs.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Education & Certifications -->
+    <section style="margin-top: 12px;">
+      <h2 class="section-title">EDUCATION &amp; CERTIFICATIONS</h2>
+      <div class="edu-item">
+        <span class="bold-lead">Applied Generative AI Specialization Certification</span> — Purdue University / Simplilearn
+      </div>
+      <div class="edu-item">
+        <span class="bold-lead">Azure AI Apps and Agents Developer Associate</span> — Microsoft Certified (AI-103)
+      </div>
+      <div class="edu-item">
+        <span class="bold-lead">Bachelor of Science in Civil and Environmental Engineering</span> — University of Illinois at Urbana-Champaign (UIUC)
+      </div>
+      <div class="edu-item">
+        <span class="bold-lead">Associate of Applied Science in Computer Systems Programming</span> — United States Air Force / Keesler AFB, MS
+      </div>
+    </section>
+
+    <!-- Technical & Methodological Toolkit -->
+    <section style="margin-top: 12px;">
+      <h2 class="section-title">TECHNICAL &amp; METHODOLOGICAL TOOLKIT</h2>
+      <div class="toolkit-item">
+        <span class="bold-lead">AI &amp; Automation:</span> Generative AI Tools &amp; LLMs (OpenAI, Claude, Antigravity, HuggingFace), Conversational AI (Telnyx, ElevenLabs, HeyGen, Vapi), Agentic Workflows (n8n, Make, Zapier), Simulation, Python &amp; VBA Programming
+      </div>
+      <div class="toolkit-item">
+        <span class="bold-lead">Strategy &amp; Frameworks:</span> Human-Centered Design (HCD), Jobs-to-Be-Done (JTBD), Design Thinking, Agile/Scrum, A/B Testing, Change Management, Value Realization, Operating Model Canvas, Business Model Canvas
+      </div>
+      <div class="toolkit-item">
+        <span class="bold-lead">Platforms:</span> Azure, Google Cloud, Office 365
+      </div>
+    </section>
+
+  </section>
+
+</body>
+</html>
